@@ -1,6 +1,6 @@
 name: Build MPY ESP32C3 SLAAC
 on:
-  workflow_dispatch: # ✅ 支持手动点击按钮启动编译
+  workflow_dispatch:
 
 jobs:
   build:
@@ -11,6 +11,7 @@ jobs:
         with:
           submodules: recursive
           ref: v1.24.0
+          fetch-depth: 0   # 关键：0 = 完整克隆，不再浅拷贝，解决tag拉取失败
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -22,7 +23,7 @@ jobs:
           sudo apt update
           sudo apt install -y git cmake ninja-build gcc python3-pip
 
-      - name: Build ESP32 port
+      - name: Build ESP32_GENERIC_C3
         run: |
           cd ports/esp32
           make BOARD=ESP32_GENERIC_C3
