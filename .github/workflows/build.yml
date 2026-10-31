@@ -10,8 +10,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          ref: v1.24.0
-          fetch-depth: 0   # 关键：0 = 完整克隆，不再浅拷贝，解决tag拉取失败
+          ref: master
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
