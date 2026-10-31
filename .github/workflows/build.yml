@@ -23,6 +23,11 @@ jobs:
           sudo apt update
           sudo apt install -y git cmake ninja-build gcc python3-pip
 
+      - name: 云端临时开启SLAAC（不修改仓库源码）
+        run: |
+          cd ports/esp32
+          echo "CONFIG_LWIP_IPV6_AUTOCONFIG=y" >> boards/ESP32_GENERIC_C3/sdkconfig.defaults
+
       - name: Build ESP32_GENERIC_C3
         run: |
           cd ports/esp32
