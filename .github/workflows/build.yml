@@ -1,0 +1,34 @@
+name: Build MPY ESP32C3 SLAAC
+on:
+  workflow_dispatch: # ✅ 支持手动点击按钮启动编译
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout MicroPython
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          ref: v1.24.0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y git cmake ninja-build gcc python3-pip
+
+      - name: Build ESP32 port
+        run: |
+          cd ports/esp32
+          make BOARD=ESP32_GENERIC_C3
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: esp32c3-firmware-slaac
+          path: ports/esp32/build-ESP32_GENERIC_C3/firmware.bin
